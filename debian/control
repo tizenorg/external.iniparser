@@ -1,0 +1,19 @@
+Source: iniparser
+Section: libs
+Priority: extra
+Maintainer: Mike McCormack <mj.mccormack@samsung.com>, MyoungJune Park <mj2004.park@samsung.com> 
+Uploaders: Mike McCormack <mj.mccormack@samsung.com>, MyoungJune Park <mj2004.park@samsung.com> 
+Build-Depends: debhelper (>= 5), autotools-dev
+Standards-Version: 3.7.2
+
+Package: iniparser
+Architecture: any
+Section: libs
+Depends: ${shlibs:Depends}, ${misc:Depends}
+Description: ini file parser library
+
+Package: iniparser-dev
+Section: libdevel
+Architecture: any
+Depends: iniparser(= ${binary:Version}), ${misc:Depends}
+Description: ini file parser library (headers)
