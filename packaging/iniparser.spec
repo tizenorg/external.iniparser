@@ -6,6 +6,7 @@ Group:      Applications/Databases
 License:    MIT
 URL:        http://ndevilla.free.fr/iniparser/
 Source:     http://ndevilla.free.fr/iniparser/iniparser-%{version}.tar.gz
+Source1001: packaging/iniparser.manifest 
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
@@ -28,6 +29,7 @@ to install %{name}-devel.
 %setup -q
 
 %build
+cp %{SOURCE1001} .
 
 LDFLAGS="-Wl,--rpath=%{_prefix}/lib -Wl,--hash-style=both -Wl,--as-needed $LDFLAGS" \
 	make prefix=%{_prefix}
@@ -63,9 +65,11 @@ EOF
 %postun -p /sbin/ldconfig
 
 %files
+%manifest iniparser.manifest
 %{_libdir}/*.so.*
 
 %files devel
+%manifest iniparser.manifest
 %{_includedir}/*.h
 %{_libdir}/*.so
 %{_libdir}/pkgconfig/*.pc
