@@ -1,6 +1,7 @@
+#sbs-git:slp/unmodified/iniparser iniparser 2.17 2a9012b9ef8ccf91d380cd8293767ab6f101830b
 Name:       iniparser
 Summary:    Stand-alone ini file parsing library
-Version:    2.17
+Version: 2.17
 Release:    1
 Group:      Applications/Databases
 License:    MIT
