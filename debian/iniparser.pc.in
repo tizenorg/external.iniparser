@@ -1,0 +1,9 @@
+prefix = @PREFIX@
+libdir = @LIBDIR@
+includedir = @INCLUDEDIR@
+
+Name : iniparser
+Description : This modules offers parsing of ini files from the C level.
+Version : @VERSION@
+Libs : -L${libdir} -liniparser
+Cflags : -I${includedir}
