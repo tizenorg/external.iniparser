@@ -1,12 +1,13 @@
 #sbs-git:slp/unmodified/iniparser iniparser 2.17 2a9012b9ef8ccf91d380cd8293767ab6f101830b
 Name:       iniparser
 Summary:    Stand-alone ini file parsing library
-Version: 2.17
-Release:    1
+Version:    2.17
+Release:    3
 Group:      Applications/Databases
 License:    MIT
 URL:        http://ndevilla.free.fr/iniparser/
 Source:     http://ndevilla.free.fr/iniparser/iniparser-%{version}.tar.gz
+Source1001:     %{name}.manifest
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
 
@@ -29,7 +30,7 @@ to install %{name}-devel.
 %setup -q
 
 %build
-
+cp %{SOURCE1001} .
 LDFLAGS="-Wl,--rpath=%{_prefix}/lib -Wl,--hash-style=both -Wl,--as-needed $LDFLAGS" \
 	make prefix=%{_prefix}
 
@@ -59,11 +60,23 @@ Cflags : -I\${includedir}
 
 EOF
 
+mkdir -p $RPM_BUILD_ROOT%{_datadir}/license
+for keyword in LICENSE COPYING COPYRIGHT;
+do
+	for file in `find %{_builddir} -name $keyword`;
+	do
+		cat $file >> $RPM_BUILD_ROOT%{_datadir}/license/%{name};
+		echo "";
+	done;
+done
+
 %post -p /sbin/ldconfig
 
 %postun -p /sbin/ldconfig
 
 %files
+%manifest %{name}.manifest
+%{_datadir}/license/%{name}
 %{_libdir}/*.so.*
 
 %files devel

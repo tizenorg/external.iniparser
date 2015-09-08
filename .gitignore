@@ -1,0 +1,14 @@
+*.o
+*.a
+build-stamp
+debian/files
+debian/*.install
+debian/*.debhelper
+debian/*.log
+debian/*.pc
+debian/*.substvars
+debian/iniparser-dev/
+debian/iniparser/
+debian/tmp/
+depcomp
+*.so.*
