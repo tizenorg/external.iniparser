@@ -1,8 +1,8 @@
 #sbs-git:slp/unmodified/iniparser iniparser 2.17 2a9012b9ef8ccf91d380cd8293767ab6f101830b
 Name:       iniparser
 Summary:    Stand-alone ini file parsing library
-Version:    2.17
-Release:    3
+Version:    3.1
+Release:    2
 Group:      Applications/Databases
 License:    MIT
 URL:        http://ndevilla.free.fr/iniparser/
@@ -10,6 +10,7 @@ Source:     http://ndevilla.free.fr/iniparser/iniparser-%{version}.tar.gz
 Source1001:     %{name}.manifest
 Requires(post): /sbin/ldconfig
 Requires(postun): /sbin/ldconfig
+Patch1: iniparser_getstr_add.patch
 
 %description
 iniparser is a free stand-alone ini file parsing library.
@@ -29,6 +30,7 @@ to install %{name}-devel.
 %prep
 %setup -q
 
+%patch1 -p1
 %build
 cp %{SOURCE1001} .
 LDFLAGS="-Wl,--rpath=%{_prefix}/lib -Wl,--hash-style=both -Wl,--as-needed $LDFLAGS" \

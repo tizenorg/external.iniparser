@@ -3,24 +3,15 @@
 /**
    @file    iniparser.h
    @author  N. Devillard
-   @date    Mar 2000
-   @version $Revision: 1.23 $
    @brief   Parser for ini files.
 */
 /*--------------------------------------------------------------------------*/
-
-/*
-	$Id: iniparser.h,v 1.23 2006-09-27 11:03:35 ndevilla Exp $
-	$Author: ndevilla $
-	$Date: 2006-09-27 11:03:35 $
-	$Revision: 1.23 $
-*/
 
 #ifndef _INIPARSER_H_
 #define _INIPARSER_H_
 
 /*---------------------------------------------------------------------------
-   								Includes
+                                Includes
  ---------------------------------------------------------------------------*/
 
 #include <stdio.h>
@@ -35,6 +26,10 @@
 /* #include <unistd.h> */
 
 #include "dictionary.h"
+
+#ifdef __cplusplus
+extern "C" {
+#endif
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -92,6 +87,21 @@ void iniparser_dump_ini(dictionary * d, FILE * f);
 
 /*-------------------------------------------------------------------------*/
 /**
+  @brief    Save a dictionary section to a loadable ini file
+  @param    d   Dictionary to dump
+  @param    s   Section name of dictionary to dump
+  @param    f   Opened file pointer to dump to
+  @return   void
+
+  This function dumps a given section of a given dictionary into a loadable ini
+  file.  It is Ok to specify @c stderr or @c stdout as output files.
+ */
+/*--------------------------------------------------------------------------*/
+
+void iniparser_dumpsection_ini(dictionary * d, char * s, FILE * f);
+
+/*-------------------------------------------------------------------------*/
+/**
   @brief    Dump a dictionary to an opened file pointer.
   @param    d   Dictionary to dump.
   @param    f   Opened file pointer to dump to.
@@ -107,24 +117,29 @@ void iniparser_dump(dictionary * d, FILE * f);
 
 /*-------------------------------------------------------------------------*/
 /**
-  @brief    Get the string associated to a key, return NULL if not found
-  @param    d   Dictionary to search
-  @param    key Key string to look for
-  @return   pointer to statically allocated character string, or NULL.
-
-  This function queries a dictionary for a key. A key as read from an
-  ini file is given as "section:key". If the key cannot be found,
-  NULL is returned.
-  The returned char pointer is pointing to a string allocated in
-  the dictionary, do not free or modify it.
-
-  This function is only provided for backwards compatibility with
-  previous versions of iniparser. It is recommended to use
-  iniparser_getstring() instead.
+  @brief    Get the number of keys in a section of a dictionary.
+  @param    d   Dictionary to examine
+  @param    s   Section name of dictionary to examine
+  @return   Number of keys in section
  */
 /*--------------------------------------------------------------------------*/
-char * iniparser_getstr(dictionary * d, const char * key);
+int iniparser_getsecnkeys(dictionary * d, char * s);
 
+/*-------------------------------------------------------------------------*/
+/**
+  @brief    Get the number of keys in a section of a dictionary.
+  @param    d   Dictionary to examine
+  @param    s   Section name of dictionary to examine
+  @return   pointer to statically allocated character strings
+
+  This function queries a dictionary and finds all keys in a given section.
+  Each pointer in the returned char pointer-to-pointer is pointing to
+  a string allocated in the dictionary; do not free or modify them.
+
+  This function returns NULL in case of error.
+ */
+/*--------------------------------------------------------------------------*/
+char ** iniparser_getseckeys(dictionary * d, char * s);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -185,7 +200,7 @@ int iniparser_getint(dictionary * d, const char * key, int notfound);
   the notfound value is returned.
  */
 /*--------------------------------------------------------------------------*/
-double iniparser_getdouble(dictionary * d, char * key, double notfound);
+double iniparser_getdouble(dictionary * d, const char * key, double notfound);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -235,8 +250,8 @@ int iniparser_getboolean(dictionary * d, const char * key, int notfound);
   It is Ok to set val to NULL.
  */
 /*--------------------------------------------------------------------------*/
+int iniparser_set(dictionary * ini, const char * entry, const char * val);
 
-int iniparser_setstr(dictionary * ini, char * entry, char * val);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -248,7 +263,7 @@ int iniparser_setstr(dictionary * ini, char * entry, char * val);
   If the given entry can be found, it is deleted from the dictionary.
  */
 /*--------------------------------------------------------------------------*/
-void iniparser_unset(dictionary * ini, char * entry);
+void iniparser_unset(dictionary * ini, const char * entry);
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -262,7 +277,7 @@ void iniparser_unset(dictionary * ini, char * entry);
   of querying for the presence of sections in a dictionary.
  */
 /*--------------------------------------------------------------------------*/
-int iniparser_find_entry(dictionary * ini, char * entry) ;
+int iniparser_find_entry(dictionary * ini, const char * entry) ;
 
 /*-------------------------------------------------------------------------*/
 /**
@@ -292,5 +307,9 @@ dictionary * iniparser_load(const char * ininame);
  */
 /*--------------------------------------------------------------------------*/
 void iniparser_freedict(dictionary * d);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif
